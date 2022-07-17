@@ -1,6 +1,6 @@
 import { ViewBuilder } from "../viewController/viewBuilder.js";
 import { PlayerController } from "./playerController.js";
-import { ProceduresController } from "./ProceduresController.js";
+import { ProceduresController } from "./proceduresController.js";
 
 export class AppController{
 
