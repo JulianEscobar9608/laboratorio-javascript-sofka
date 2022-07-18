@@ -41,7 +41,7 @@ export class ProceduresController {
         if(h == undefined){
             contenedor.removeChild(h2);
         }else{
-            contenedor.removeChild(h1);
+            contenedor.removeChild(h);
         }
         contenedor.removeChild(btn);
         AppController.iniciarPartida();
