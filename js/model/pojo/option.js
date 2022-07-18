@@ -17,4 +17,14 @@ export class Opcion{
         return this.#isCorrect;
     }
 
+    static mezclarOpciones(opciones){
+        for(let index = 0;index<opciones.length;index++){
+            let random = Math.floor(Math.random()*4);
+            let burbuja = opciones[random];
+            opciones[random] = opciones[index];
+            opciones[index] = burbuja;
+        } 
+        return opciones;
+    }
+
 }

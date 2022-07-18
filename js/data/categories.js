@@ -2,22 +2,22 @@
 export const categories = [
     {
         "idCategoria":"1",
-        "nombreCategoría": "Ciencias Naturales"
+        "nombreCategoria": "Ciencias Naturales"
     },
     {
         "idCategoria":"2",
-        "nombreCategoría": "Geografía e Historia"
+        "nombreCategoria": "Geografía e Historia"
     },
     {
         "idCategoria":"3",
-        "nombreCategoría": "Matemáticas"
+        "nombreCategoria": "Matemáticas"
     },
     {
         "idCategoria":"4",
-        "nombreCategoría": "Literatura"
+        "nombreCategoria": "Literatura"
     },
     {
         "idCategoria":"5",
-        "nombreCategoría": "Deportes"
+        "nombreCategoria": "Deportes"
     }
 ];

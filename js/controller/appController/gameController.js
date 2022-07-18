@@ -1,6 +1,8 @@
 import { PreguntaDao } from "../../model/dao/questionDao.js";
-
-
+import { DificultDao } from "../../model/dao/dificultDao.js";
+import { ViewBuilder } from "../viewController/viewBuilder.js";
+import { Opcion } from "../../model/pojo/option.js";
+import { ProceduresController } from "./ProceduresController.js";
 export class GameController {
 
 
@@ -16,14 +18,39 @@ export class GameController {
         });
         const contenedor = document.querySelector(".main-container");
         const formulario = document.querySelector(".form-sofka");
-        contenedor.remove(formulario);
+        contenedor.removeChild(formulario);
         const letra = document.createElement("h1");
+        let idDificultad = ProceduresController.sumarPartida();
         if(opcionAValidar.isCorrect()){
-            letra.textContent = "CORRECTO";
-            contenedor.append(letra);
+            if(idDificultad<=5){
+                const dificultadInicial = DificultDao.obtenerDificultad(idDificultad);
+                const preguntaElegida = dificultadInicial.getPreguntas()[Math.floor(Math.random()*5)];
+                let arregloOpciones = new Array();
+                preguntaElegida.getOpciones().forEach((opcion)=>{
+                arregloOpciones.push(opcion.getRespuesta());
+            });
+            ViewBuilder.buildForm(Opcion.mezclarOpciones(arregloOpciones),preguntaElegida,dificultadInicial,GameController.validarPregunta);
+
+            }else{
+                letra.id = "referenciaWin"
+                letra.textContent = "¡GANASTE EL JUEGO!!!";
+                const boton = document.createElement("input");
+                boton.type = "submit";
+                boton.id = "buton";
+                boton.value = "VOLVER A LA PANTALLA PRINCIPAL";
+                boton.addEventListener("click",ProceduresController.recargarPantallaPrincipal);
+                contenedor.append(letra,boton);
+            }
+        
         }else{
-            letra.textContent = "RESPUESTA INCORRECTA";
-            contenedor.append(letra);
+            letra.id = "referenciaLose"
+            letra.textContent = "RESPUESTA INCORRECTA, PERDISTE LA PARTIDA";
+            const boton = document.createElement("input");
+            boton.type = "submit";
+            boton.id = "buton";
+            boton.value = "VOLVER A LA PANTALLA PRINCIPAL";
+            boton.addEventListener("click",ProceduresController.recargarPantallaPrincipal);
+            contenedor.append(letra,boton);
         }
 
     }

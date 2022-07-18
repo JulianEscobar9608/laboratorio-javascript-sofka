@@ -4,8 +4,7 @@ import { ProceduresController } from "./proceduresController.js";
 
 export class AppController{
 
-
-    iniciarPartida(){
+    static iniciarPartida(){
         ProceduresController.inicializarInformacion();
         ViewBuilder.buildIndex(PlayerController.ingresarUsuario);
 

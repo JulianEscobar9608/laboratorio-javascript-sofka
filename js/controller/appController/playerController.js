@@ -2,6 +2,8 @@ import { PlayerDao } from "../../model/dao/playersDao.js";
 import { ViewBuilder } from "../viewController/viewBuilder.js";
 import { DificultDao } from "../../model/dao/dificultDao.js";
 import { GameController } from "./gameController.js";
+import { Opcion } from "../../model/pojo/option.js";
+import { ProceduresController } from "./ProceduresController.js";
 
 export class PlayerController {
 
@@ -18,16 +20,44 @@ export class PlayerController {
         const divMain = document.getElementById("cont-index");
         contenedorprincipal.removeChild(divMain);
         const dificultadInicial = DificultDao.obtenerDificultad(1);
-        console.log(dificultadInicial);
-        const preguntaElegida = dificultadInicial.getPreguntas()[1];
-        console.log(preguntaElegida);
-        let arreglo = new Array();
+        const preguntaElegida = dificultadInicial.getPreguntas()[Math.floor(Math.random()*5)];
+        let arregloOpciones = new Array();
         preguntaElegida.getOpciones().forEach((opcion)=>{
-            arreglo.push(opcion.getRespuesta());
+            arregloOpciones.push(opcion.getRespuesta());
         });
-        ViewBuilder.buildForm(arreglo,preguntaElegida.getIdPregunta(),GameController.validarPregunta);
+        ProceduresController.contarPartida();
+        ViewBuilder.buildForm(Opcion.mezclarOpciones(arregloOpciones),preguntaElegida,dificultadInicial,GameController.validarPregunta);
     }
 
+
+    static listarJugadores(){
+        const contenedor = document.getElementById("main-container");
+        const contNodo = document.getElementById("cont-index");
+        contenedor.removeChild(contNodo);
+        const table = document.createElement('table');
+        table.id ="tabla-jugadores";
+        const head = document.createElement('thead');
+        const h = document.createElement('th');
+        h.textContent = "JUGADORES REGISTRADOS";
+        head.append(h);
+        table.append(head);
+        const bod = document.createElement('tbody');
+        let jugadores = PlayerDao.obtenerJugadores();
+        jugadores.forEach((jugador)=>{
+            const b = document.createElement('tr');
+            b.id = "tr"+jugador.getIdJugador();
+            b.textContent = jugador.getNombreUsuario();
+            bod.append(b);
+        });
+        table.append(bod);
+        contenedor.append(table);
+        const botonRem = document.createElement("input");
+        botonRem.id = "buton"
+        botonRem.type = "submit";
+        botonRem.value ="REGRESAR AL MENU PRINCIPAL";
+        botonRem.addEventListener("click",ProceduresController.recargarPantallaVistaTabla);
+        contenedor.append(botonRem);
+    }
 
 
 }
